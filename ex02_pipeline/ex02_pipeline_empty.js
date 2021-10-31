@@ -1,10 +1,11 @@
+let program;
+/** @type {HTMLCanvasElement} */
+const canvas = document.querySelector("#c");
+const gl = canvas.getContext("webgl");
 main();
 function main() {
     /*========== Create a WebGL Context ==========*/
-    /** @type {HTMLCanvasElement} */
-    const canvas = document.querySelector("#c");
     /** @type {WebGLRenderingContext} */
-    const gl = canvas.getContext("webgl");
     if (!gl) {
         console.log("WebGL unavailable");
     } else {
@@ -60,7 +61,6 @@ function main() {
         uniform mat4 uProjectionMatrix;
         varying vec4 vFragColor;
 
-    
         void main() {
             gl_Position = uProjectionMatrix * uModelViewMatrix * aPosition;
             vFragColor = aColor;
@@ -68,20 +68,15 @@ function main() {
     `;
 
     const fsSource = `
-        precision mediump float;
-        
-        varying vec4 vFragColor;
+        precision mediump float;        
+        varying vec4 vFragColor; // varying = interpoliert; flat = flat
+        uniform float time;
 
         void main() {
             // gl_FragColor = vec4(0.0, 0.0, mod(gl_FragCoord.x, 80.0) / 80.0, 2.0) - vFragColor;
-            gl_FragColor = vec4(cos(gl_FragCoord.x / 8.0) + .5, sin(gl_FragCoord.x / 8.0), -cos(gl_FragCoord.x / 8.0) + .2, 2.0) - vFragColor;
-
-            // if( mod(gl_FragCoord.x,10.0) < 5.0 ) {  
-            //     gl_FragColor = vFragColor;
-            // } else {
-            //     gl_FragColor = vec4(1.0,1.0,1.0,2.0) 
-            //                    - vFragColor;
-            // }              
+            gl_FragColor = vec4(.3, cos((gl_FragCoord.y - gl_FragCoord.x) / 10.0 + time * 20.0), 1.0, 1.0);            
+            
+            // gl_FragColor = vFragColor;
         }    
     `;
 
@@ -116,7 +111,7 @@ function main() {
     }
 
     /*====== Create shader program ======*/
-    const program = gl.createProgram();
+    program = gl.createProgram();
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
 
@@ -169,6 +164,12 @@ function main() {
     ); // axis to rotate around (Y)
     console.log("ModelviewMatrix: %s", mat4.str(modelViewMatrix));
     gl.uniformMatrix4fv(modelMatrixLocation, false, modelViewMatrix);
+} // be sure to close the main function with a curly brace.
+
+function render(time) {
+    const timeLocation = gl.getUniformLocation(program, "time");
+    gl.useProgram(program);
+    gl.uniform1f(timeLocation, time * 0.001); // time in seconds
 
     /*========== Drawing ======================== */
     gl.clearColor(1, 1, 1, 1);
@@ -180,4 +181,7 @@ function main() {
     const first = 0;
     const count = 6;
     gl.drawArrays(mode, first, count);
-} // be sure to close the main function with a curly brace.
+
+    requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
