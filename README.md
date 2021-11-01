@@ -1,4 +1,5 @@
-# ecg_WiSe2021_22
+# ecg_WiSe2021_22 for bassadin
+
 Repository for course "Echtzeit-Computergrafik" in winter term 2021 at HS Furtwangen University. 
 
 ## First meeting on 14.10.2021
