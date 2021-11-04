@@ -1,26 +1,24 @@
-<!-- Created with ! shortcut in VS Code -->
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>WebGL Demo</title>
-        <style>
-            #canvas {
-                width: 100vw;
-                height: 100vh;
-                display: block;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id="canvas" width="1000" height="800"></canvas>
-        <br />
-
-        <!-- CSS Style defines the size of the canvas -->
-
+ <!-- Created with ! shortcut in VS Code -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>ECG Excercise 1: Hello WebGL World!</title>
+     <style>  
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style> <!-- CSS Style defines the size of the canvas -->
+ </head>
+ <body>
+    <canvas id="canvas" width="1000" height="800"></canvas> <!-- HTML5 canvas element where all is drawn, note that the resolution is key -->
+    <br />
+    <i>Demo is above this text</i> <!-- Just a debug hint so that canvas can be found. -->
+        
         <!-- Vertex shader code -->
         <script id="vertex-data" type="not-javascript">
             attribute vec4 vertex_points;
