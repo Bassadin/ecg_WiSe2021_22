@@ -77,6 +77,7 @@ function main() {
                 shaderProgram,
                 "uModelViewMatrix"
             ),
+            currentTime: gl.getUniformLocation(shaderProgram, "time"),
         },
     };
 
@@ -391,24 +392,23 @@ function drawScene(gl, programInfo, buffers, deltaTime, currentTime) {
 
     // Tell WebGL to use our program when drawing
     gl.useProgram(programInfo.program);
-    
+
     //Pass the time along
-    const timeLocation = gl.getUniformLocation(programInfo.program, "time");
-    gl.uniform1f(timeLocation, currentTime);
-    
+
     // Set the shader uniforms
     gl.uniformMatrix4fv(
-      programInfo.uniformLocations.projectionMatrix,
+        programInfo.uniformLocations.projectionMatrix,
         false,
         projectionMatrix
     );
     gl.uniformMatrix4fv(
-      programInfo.uniformLocations.modelViewMatrix,
+        programInfo.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix
-        );
+    );
+    gl.uniform1f(programInfo.uniformLocations.currentTime, currentTime);
 
-        {
+    {
         const vertexCount = 36;
         const type = gl.UNSIGNED_SHORT;
         const offset = 0;
