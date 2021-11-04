@@ -390,23 +390,25 @@ function drawScene(gl, programInfo, buffers, deltaTime, currentTime) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
     // Tell WebGL to use our program when drawing
-    const timeLocation = gl.getUniformLocation(programInfo.program, "time");
     gl.useProgram(programInfo.program);
+    
+    //Pass the time along
+    const timeLocation = gl.getUniformLocation(programInfo.program, "time");
     gl.uniform1f(timeLocation, currentTime);
-
+    
     // Set the shader uniforms
     gl.uniformMatrix4fv(
-        programInfo.uniformLocations.projectionMatrix,
+      programInfo.uniformLocations.projectionMatrix,
         false,
         projectionMatrix
     );
     gl.uniformMatrix4fv(
-        programInfo.uniformLocations.modelViewMatrix,
+      programInfo.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix
-    );
+        );
 
-    {
+        {
         const vertexCount = 36;
         const type = gl.UNSIGNED_SHORT;
         const offset = 0;
