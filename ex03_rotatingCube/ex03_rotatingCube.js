@@ -1,6 +1,7 @@
 /**
  * Example Code #03 for ECG course
  * Render a cube and let it rotate
+ * In the lecture an additional time dependent shading has been added.
  *
  * @summary WebGL implementation of a rotating cube
  * @author Uwe Hahne, uwe.hahne (ät) hs-furtwangen.de
@@ -10,6 +11,8 @@
  */
 
 var cubeRotation = degToRad(45.0);
+var then = 0;
+let time = 0.0;
 
 main();
 
@@ -34,13 +37,15 @@ function main() {
 
         uniform mat4 uModelViewMatrix;
         uniform mat4 uProjectionMatrix;
+        uniform float uTime;
 
         varying lowp vec4 vColor;
 
         void main() {
             gl_Position = uProjectionMatrix * uModelViewMatrix * aPosition;
-            //vColor = aPosition; // RGB Cube
-            vColor = aVertexColor; // Face colored cube
+            //vColor = aPosition; // RGB Cube,
+            vColor = abs(sin(uTime * 4.0)) * aVertexColor; // Face colored cube
+            vColor.a = 1.0;
         }
     `;
 
@@ -124,7 +129,7 @@ function main() {
         gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor);
     }
 
-    var then = 0;
+    
 
     // Draw the scene repeatedly
     function render(currentTime) {
@@ -417,6 +422,7 @@ function drawScene(gl, programInfo, buffers, deltaTime, currentTime) {
 
     // Update the rotation for the next draw
     cubeRotation += deltaTime;
+    time += deltaTime;
 }
 
 function degToRad(grad) {
